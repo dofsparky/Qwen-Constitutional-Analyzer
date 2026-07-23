@@ -393,7 +393,9 @@ If you discover issues or have ideas for improving constitutional research workf
 
 # License
 
-Choose the license that best matches your goals before publishing (for example, MIT, BSD-3-Clause, GPLv3, or Apache-2.0).
+Free and Open Source
+
+2026 - ∞
 
 ---
 
