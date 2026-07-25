@@ -1,3 +1,256 @@
+# QCAv16-3
+
+## Offline Constitutional Analysis Engine
+
+> **Retrieval-first constitutional analysis powered by C, llama.cpp, and Qwen.**
+
+QCAv16-3 is an offline constitutional analysis engine designed to compare statutes, regulations, ordinances, and legal documents against constitutional reference material without relying on cloud services.
+
+Instead of forcing an entire legal code into a language model's context window, QCA indexes documents, retrieves only the most relevant statutory material, builds a compact prompt, and submits that prompt to a locally running Qwen model through **llama.cpp**.
+
+Everything stays on your machine.
+
+No cloud.
+
+No subscriptions.
+
+No telemetry.
+
+---
+
+# Features
+
+* Completely Offline
+* Written in ANSI C
+* Compatible with llama.cpp
+* Optimized for Qwen GGUF models
+* Retrieval-First Architecture
+* Automatic Document Caching
+* Prompt Budget Management
+* Resume Support
+* Multi-threaded Processing
+* Markdown, JSON and CSV Reports
+* Constitutional Cross-Reference Engine
+* Compact Prompt Generation
+
+---
+
+# Why QCA?
+
+Large legal codes contain far more text than can fit into an LLM's context window.
+
+Rather than asking the model to read thousands of pages at once, QCA narrows the problem before inference begins.
+
+```text
+Legal Document
+       │
+       ▼
+ Text Extraction
+       │
+       ▼
+ Chunk Builder
+       │
+       ▼
+ Document Cache
+       │
+       ▼
+ Front Matter Filter
+       │
+       ▼
+ Relevance Ranking
+       │
+       ▼
+ Compact Prompt Builder
+       │
+       ▼
+ Prompt Budget Enforcement
+       │
+       ▼
+ Qwen + llama.cpp
+       │
+       ▼
+ Constitutional Analysis
+```
+
+This retrieval-first approach improves efficiency while leaving more context available for reasoning and structured output.
+
+---
+
+# What's New in QCAv16-3
+
+## Intelligent Ingestion
+
+QCA now filters non-statutory material before analysis.
+
+Skipped content includes:
+
+* Publisher front matter
+* Table of contents
+* Index pages
+* Editorial sections
+* Short placeholder chunks
+* Other non-statutory metadata
+
+This prevents the model from wasting inference time on material that has no constitutional relevance.
+
+---
+
+## Compact Retrieval
+
+Instead of embedding complete matching sections into every prompt, QCA includes concise excerpts from the highest-ranked matches.
+
+Benefits include:
+
+* Smaller prompts
+* More room for reasoning
+* Reduced context pressure
+* Better completion rates
+
+---
+
+## Prompt Budget Management
+
+QCA automatically limits prompt size to preserve context for:
+
+* Model reasoning
+* Final analysis
+* Structured output
+
+---
+
+## Cached Processing
+
+Documents are indexed once and reused across future analyses, reducing preprocessing time and improving retrieval consistency.
+
+---
+
+# Typical Workflow
+
+## 1. Prepare Documents
+
+```bash
+./QCAv16-3 \
+    --prepare \
+    --input IowaCode2026.txt \
+    --reference bill_of_rights.txt \
+    --outdir analysis
+```
+
+This extracts, indexes, and caches the documents without invoking the language model.
+
+---
+
+## 2. Run Constitutional Analysis
+
+```bash
+./QCAv16-3 \
+    --profile ultra \
+    --workers auto \
+    --prompt-budget 5000 \
+    --input IowaCode2026.txt \
+    --reference bill_of_rights.txt \
+    --outdir analysis \
+    --runner-template 'llama-cli -m MODEL.gguf --jinja --reasoning on --reasoning-budget -1 -c {CTX_SIZE} -n 2048 -f {PROMPT_FILE}'
+```
+
+---
+
+## 3. Question Mode
+
+```bash
+./QCAv16-3 \
+    --questions questions.txt \
+    --input IowaCode2026.txt \
+    --reference bill_of_rights.txt \
+    --outdir analysis \
+    --runner-template 'llama-cli ...'
+```
+
+---
+
+# Output
+
+QCA generates:
+
+* Markdown reports
+* JSON reports
+* CSV exports
+* Prompt files
+* Raw model responses
+* Cached document packs
+* Resume state information
+
+---
+
+# Project Philosophy
+
+QCA is built around a simple principle:
+
+> **Language models should spend their context reasoning about the law—not reading publication metadata.**
+
+The engine performs the heavy lifting before inference by filtering, ranking, and compressing the source material into a prompt that emphasizes the most relevant statutory text.
+
+---
+
+# Current Status
+
+Current capabilities include:
+
+* Retrieval-first prompt generation
+* Cached indexing
+* Prompt budgeting
+* Multi-document comparison
+* Constitutional cross-referencing
+* Resume support
+* Fully offline execution
+
+---
+
+# Roadmap
+
+Future development is expected to focus on:
+
+* Improved statutory section detection
+* Better legal citation recognition
+* Enhanced retrieval ranking
+* Richer reporting
+* Interactive desktop interface
+* Visualization tools for retrieval and analysis
+
+---
+
+# Requirements
+
+* Linux
+* GCC
+* llama.cpp
+* Qwen GGUF model
+
+Recommended:
+
+* Multi-core CPU
+* SSD storage
+* 8 GB RAM or more
+
+---
+
+# Disclaimer
+
+QCA is intended for constitutional research, education, and document analysis.
+
+It does **not** provide legal advice or authoritative legal determinations. AI-generated analyses should always be verified against the underlying legal authorities, applicable statutes, and relevant case law.
+
+---
+
+# License
+
+See the included LICENSE file for licensing information.
+
+---
+
+## Built for researchers, developers, and legal professionals who want private, transparent, fully offline constitutional analysis.
+
+
 # QCAv16-2
 
 ### Offline Constitutional Analysis Engine
